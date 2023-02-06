@@ -28,20 +28,20 @@ const theme = createTheme(
       },
     },
     palette: {
-      primary: {
-        // light: "#7ccad8",
-        // main: "#8C0D22",
-        // dark: "#151348",
-      },
-      secondary: {
-        // main: "#FF7A00",
-        // light: "#FFA95B",
-        // dark: "#E85A02",
-        // contrastText: "#ffffff",
-      },
-      text: {
-        primary: "#444444",
-      },
+      // primary: {
+      //   light: "#7ccad8",
+      //   main: "#8C0D22",
+      //   dark: "#151348",
+      // },
+      // secondary: {
+      //   main: "#FF7A00",
+      //   light: "#FFA95B",
+      //   dark: "#E85A02",
+      //   contrastText: "#ffffff",
+      // },
+      // text: {
+      //   primary: "#444444",
+      // },
     },
     typography: {
       fontFamily: "Vazirmatn, Quicksand",
