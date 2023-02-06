@@ -3,7 +3,7 @@ import AppBar from "@mui/material/AppBar";
 
 export default function Header() {
   return (
-    <AppBar elevation={0} position="sticky">
+    <AppBar position="sticky">
       <div>Left</div>
       <div>appBar</div>
       <Button>try me</Button>
