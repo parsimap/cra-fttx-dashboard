@@ -5,7 +5,7 @@ type HighlightType =
   | "money-integral"
   | "sun";
 
-export default interface IOverviewHighlight {
+export default interface IHighlightItem {
   type: HighlightType;
   title: string;
   subtitle: string;
