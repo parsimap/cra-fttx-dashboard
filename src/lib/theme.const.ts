@@ -28,11 +28,11 @@ const theme = createTheme(
       },
     },
     palette: {
-      // primary: {
-      //   light: "#7ccad8",
-      //   main: "#8C0D22",
-      //   dark: "#151348",
-      // },
+      primary: {
+        light: "#7ccad8",
+        main: "#2D346C",
+        dark: "#151348",
+      },
       // secondary: {
       //   main: "#FF7A00",
       //   light: "#FFA95B",
