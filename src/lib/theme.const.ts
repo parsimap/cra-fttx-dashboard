@@ -1,10 +1,26 @@
-import { createTheme } from "@mui/material/styles";
-import { faIR } from "@mui/material/locale";
+import {createTheme} from "@mui/material/styles";
+import {faIR} from "@mui/material/locale";
 
 const theme = createTheme(
   {
     direction: "rtl",
     components: {
+      MuiTypography: {
+        styleOverrides: {
+          h1: {
+            fontSize: "2em",
+          },
+          h2: {
+            fontSize: "1.5em",
+          },
+          h3: {
+            fontSize: "1.17em",
+          },
+          h4: {
+            fontSize: "1em",
+          },
+        },
+      },
       MuiButton: {
         styleOverrides: {
           root: {
