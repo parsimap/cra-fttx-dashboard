@@ -6,6 +6,7 @@ import HouseholdFamilyIcon from "@/src/components/Icons/HouseholdFamilyIcon";
 import MoneyIntegralIcon from "@/src/components/Icons/MoneyIntegralIcon";
 import SunIcon from "@/src/components/Icons/SunIcon";
 import UsbIcon from "@/src/components/Icons/UsbIcon";
+import PersianNumber from "@/src/components/PersianNumber";
 
 type IconType =
   | "household-family"
@@ -18,7 +19,7 @@ interface ICardProps {
   icon: IconType;
   title: string;
   subtitle: string;
-  amount: string;
+  amount: JSX.Element;
 }
 
 const Icon = ({ value }: { value: IconType }) => {
@@ -63,25 +64,25 @@ const Card = ({ title, subtitle, amount, icon }: ICardProps) => (
 const Cards = () => (
   <>
     <Card
-      amount={new Intl.NumberFormat("fa", { useGrouping: true }).format(203168)}
+      amount={<PersianNumber useGrouping>203168</PersianNumber>}
       subtitle={"خانوار"}
       icon={"construction-worker"}
       title={"تعداد خانوار تحت پوشش"}
     />
     <Card
-      amount={"2000"}
+      amount={<PersianNumber useGrouping>203168</PersianNumber>}
       subtitle={"خانوار"}
       icon={"construction-worker"}
       title={"تعداد خانوار تحت پوشش"}
     />
     <Card
-      amount={"2000"}
+      amount={<PersianNumber useGrouping>203168</PersianNumber>}
       subtitle={"خانوار"}
       icon={"construction-worker"}
       title={"تعداد خانوار تحت پوشش"}
     />
     <Card
-      amount={"2000"}
+      amount={<PersianNumber useGrouping>203168</PersianNumber>}
       subtitle={"خانوار"}
       icon={"construction-worker"}
       title={"تعداد خانوار تحت پوشش"}
