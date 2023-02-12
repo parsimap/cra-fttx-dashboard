@@ -7,6 +7,8 @@ import MoneyIntegralIcon from "@/src/components/Icons/MoneyIntegralIcon";
 import SunIcon from "@/src/components/Icons/SunIcon";
 import UsbIcon from "@/src/components/Icons/UsbIcon";
 import PersianNumber from "@/src/components/PersianNumber";
+import { SvgIconProps } from "@mui/material/SvgIcon";
+import GroupStack from "@/src/pages/components/GroupStack";
 
 type IconType =
   | "household-family"
@@ -22,18 +24,18 @@ interface ICardProps {
   amount: JSX.Element;
 }
 
-const Icon = ({ value }: { value: IconType }) => {
+const Icon = ({ value, ...rest }: { value: IconType } & SvgIconProps) => {
   switch (value) {
     case "construction-worker":
-      return <ConstructionWorkerIcon />;
+      return <ConstructionWorkerIcon {...rest} />;
     case "household-family":
-      return <HouseholdFamilyIcon />;
+      return <HouseholdFamilyIcon {...rest} />;
     case "money-integral":
-      return <MoneyIntegralIcon />;
+      return <MoneyIntegralIcon {...rest} />;
     case "sun":
-      return <SunIcon />;
+      return <SunIcon {...rest} />;
     case "usb":
-      return <UsbIcon />;
+      return <UsbIcon {...rest} />;
     default:
       return <></>;
   }
@@ -43,6 +45,7 @@ const Card = ({ title, subtitle, amount, icon }: ICardProps) => (
   <Box
     sx={{
       p: 3,
+      height: 150,
       width: 250,
       borderRadius: 5,
       color: "#ffffff",
@@ -52,42 +55,46 @@ const Card = ({ title, subtitle, amount, icon }: ICardProps) => (
       textAlign: "center",
     }}
   >
-    <Typography variant={"h3"}>{title}</Typography>
-    <Stack direction={"row"}>
-      <Typography variant={"body2"}>{amount}</Typography>
-      <Icon value={icon} />
+    <Typography variant={"h3"} sx={{ height: 43 }}>
+      {title}
+    </Typography>
+    <Stack direction={"row"} justifyContent={"center"}>
+      <Typography fontSize={30} fontWeight={"bold"}>
+        {amount}
+      </Typography>
+      <Icon value={icon} sx={{ mr: 1 }} />
     </Stack>
-    <Typography variant={"subtitle2"}>{subtitle}</Typography>
+    <Typography fontSize={12}>{subtitle}</Typography>
   </Box>
 );
 
 const Cards = () => (
-  <>
+  <GroupStack>
     <Card
       amount={<PersianNumber useGrouping>203168</PersianNumber>}
       subtitle={"خانوار"}
-      icon={"construction-worker"}
+      icon={"household-family"}
       title={"تعداد خانوار تحت پوشش"}
     />
     <Card
       amount={<PersianNumber useGrouping>203168</PersianNumber>}
-      subtitle={"خانوار"}
+      subtitle={"کیلومتر"}
       icon={"construction-worker"}
-      title={"تعداد خانوار تحت پوشش"}
+      title={"حجم عملیات حفاری و داکت‌گذاری"}
     />
     <Card
       amount={<PersianNumber useGrouping>203168</PersianNumber>}
-      subtitle={"خانوار"}
-      icon={"construction-worker"}
-      title={"تعداد خانوار تحت پوشش"}
+      subtitle={"کیلومتر"}
+      icon={"usb"}
+      title={"حجم عملیات فیبرکشی"}
     />
     <Card
       amount={<PersianNumber useGrouping>203168</PersianNumber>}
-      subtitle={"خانوار"}
-      icon={"construction-worker"}
-      title={"تعداد خانوار تحت پوشش"}
+      subtitle={"روز"}
+      icon={"sun"}
+      title={"روزشمار پروژه"}
     />
-  </>
+  </GroupStack>
 );
 
 export default Cards;

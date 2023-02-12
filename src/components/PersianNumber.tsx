@@ -1,15 +1,14 @@
 import React, { PropsWithChildren } from "react";
-
-const getPersianNumber = (rest: Intl.NumberFormatOptions, children: number) =>
-  new Intl.NumberFormat("fa", rest).format(children);
+import isNumber from "is-number";
+import { getPersianNumber } from "@/src/lib/utilities/persianNumber";
 
 const PersianNumber = ({
   children,
   ...rest
 }: PropsWithChildren<Intl.NumberFormatOptions>) => {
   if (React.isValidElement(children)) throw new Error("Use raw number only");
-  if (typeof children !== "number") throw new Error("Only number can be used");
-  return <>{getPersianNumber(rest, children)}</>;
+  if (!isNumber(children)) throw new Error("Only number can be used");
+  return <>{getPersianNumber(+children!, rest)}</>;
 };
 
 export default PersianNumber;
