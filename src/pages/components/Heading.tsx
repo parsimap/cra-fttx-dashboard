@@ -8,7 +8,12 @@ import React from "react";
 
 const Heading = () => (
   <GroupStack>
-    <Box ml={"auto"} width={130} component={"img"} src={sweetTaste.src} />
+    <Box
+      ml={"auto"}
+      width={130}
+      component={"img"}
+      src={sweetTaste.src}
+    />
     <Typography variant={"h5"} sx={{ color: "#F7941D", ml: "auto" }}>
       داشبورد مدیریتی طرح ملی فیبر نوری منازل و کسب و کارها
     </Typography>

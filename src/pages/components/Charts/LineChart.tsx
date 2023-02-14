@@ -1,7 +1,3 @@
-//test
-import ChartContainer, {
-  ChartDockPanel,
-} from "../../../components/Chart/ChartContainer";
 import {
   Line,
   LineChart as RechartsLineChart,
@@ -10,56 +6,61 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import {useMemo, useState} from "react";
 import Typography from "@mui/material/Typography";
-import ITechnologyTrend from "../../../interfaces/ITechnologyTrend";
+import { useCallback, useState } from "react";
+import ITechnologyTrend from "@/src/interfaces/ITechnologyTrend";
+import { CoverageType } from "@/src/types/CoverageType";
 import {
   persianDateLabelFormatter,
   persianDateTickFormatter,
 } from "@/src/lib/utilities/persianDateFormatters";
-import {DateRangeType} from "@/src/types/DateRangeType";
-import {ITechnologyCoverage} from "@/src/interfaces/ITechnologyPalette";
+import { DateRangeType } from "@/src/types/DateRangeType";
 import ChartTooltip from "@/src/components/Chart/ChartTooltip";
+import ChartContainer, {
+  ChartDockPanel,
+} from "@/src/components/Chart/ChartContainer";
+import ITechnology from "@/src/interfaces/ITechnology";
+import ICoverage from "@/src/interfaces/ICoverage";
+import LineChartLegend from "@/src/pages/components/Charts/LineChartLegend";
 
 interface IChartItem {
   year: number;
   date: string;
   month: number;
-  client: number;
-  coverage: number;
-  "passive-port": number;
+
+  [p: string]: number | string;
 }
 
-const extractChartData = (trends: ITechnologyTrend[], indicators: string[]) => {
-  const chartData = [] as IChartItem[];
+const extractChartData = (
+  trends: ITechnologyTrend[],
+  type: CoverageType,
+  technologies: string[]
+) => {
+  let chartData = [] as IChartItem[];
 
   for (const trend of trends) {
+    const technologyName = trend.technologyName;
     const trendDate = `${trend.month}-${trend.year}`;
+    if (!technologies.includes(technologyName)) continue;
+
     let itemIndex = chartData.findIndex((it) => it.date === trendDate);
 
     if (itemIndex === -1) {
-      const chartItem = {
+      const length = chartData.push({
+        date: trendDate,
         year: trend.year,
         month: trend.month,
-        date: trendDate,
-      } as IChartItem;
-      const length = chartData.push(chartItem);
+      });
       itemIndex = length - 1;
     }
 
     const chartItem = chartData[itemIndex];
-    if (indicators.includes("coverage")) {
-      if (trend.technologyName === "FTTH") {
-        chartItem.coverage = (chartItem.coverage ?? 0) + trend.coverageCount;
-      }
-    }
+    const value =
+      type === "client" ? trend.clientCount : trend.passivePortCount;
 
-    if (indicators.includes("client"))
-      chartItem.client = (chartItem.client ?? 0) + trend.clientCount;
-
-    if (indicators.includes("passive-port"))
-      chartItem["passive-port"] =
-        (chartItem["passive-port"] ?? 0) + trend.passivePortCount;
+    if (chartItem[technologyName])
+      chartItem[technologyName] = (chartItem[technologyName] as number) + value;
+    else chartItem[technologyName] = value;
   }
 
   return chartData.sort((cur, prev) =>
@@ -69,42 +70,58 @@ const extractChartData = (trends: ITechnologyTrend[], indicators: string[]) => {
 
 interface IProps {
   data: ITechnologyTrend[];
+  type: CoverageType;
+  coverages: ICoverage[];
   theme: "dark" | "light";
+  technologies: ITechnology[];
   dateRangeType: DateRangeType;
-  palettes: ITechnologyCoverage[];
 }
 
-const LineChart = ({palettes, data: propsData, theme, dateRangeType}: IProps) => {
+const LineChart = ({
+  type,
+  theme,
+  data,
+  coverages,
+  technologies,
+  dateRangeType,
+}: IProps) => {
   const fill = theme === "light" ? "#ffffff" : "#333333";
-  const [activeIndicators, setActiveIndicators] = useState<string[]>([]);
   const dateRangeTitle = dateRangeType === DateRangeType.YEARLY ? "سال" : "ماه";
+  const [activeTechnologies, setActiveTechnologies] = useState<string[]>([]);
 
-  const data = useMemo(
-    () => extractChartData(propsData, activeIndicators),
-    [activeIndicators, propsData]
+  const getChartData = useCallback(
+    () => extractChartData(data, type, activeTechnologies),
+    [activeTechnologies, data, type]
   );
 
-  const handleTechnologies = (values: string[]) => {
-    setActiveIndicators(values);
-  };
+  function handleTechnologies(values: string[]) {
+    setActiveTechnologies(values);
+  }
 
   return (
-    <ChartContainer>
+    <ChartContainer width={"inherit"}>
       <ChartDockPanel position={"left"}>
         <Typography color={fill} variant={"subtitle2"} mt={0.5} fontSize={10.5}>
-          تعداد
+          {`تعداد ${coverages.find((x) => x.type === type)!.title}`}
         </Typography>
         <Typography color={fill} fontWeight={"light"} fontSize={10}>
           (بر حسب هزار واحد)
         </Typography>
       </ChartDockPanel>
-      <ResponsiveContainer>
-        <RechartsLineChart data={data} margin={{left: -10, right: 10}}>
+      <LineChartLegend
+        technologies={technologies}
+        onChange={handleTechnologies}
+      />
+      <ResponsiveContainer width={"100%"}>
+        <RechartsLineChart
+          data={getChartData()}
+          margin={{ left: -10, right: 10 }}
+        >
           <YAxis
             fontSize={14}
-            tick={{fill}}
-            axisLine={{stroke: fill, strokeWidth: 2}}
-            tickLine={{stroke: fill, strokeWidth: 2}}
+            tick={{ fill: fill }}
+            axisLine={{ stroke: fill, strokeWidth: 2 }}
+            tickLine={{ stroke: fill, strokeWidth: 2 }}
             tickFormatter={(value) => String(value / 1000)}
             direction={"ltr"}
           />
@@ -115,29 +132,30 @@ const LineChart = ({palettes, data: propsData, theme, dateRangeType}: IProps) =>
             angle={dateRangeType === DateRangeType.YEARLY ? 0 : -50}
             height={50}
             textAnchor="start"
-            tick={{fill}}
+            tick={{ fill }}
             tickFormatter={persianDateTickFormatter}
-            tickLine={{stroke: fill, strokeWidth: 2}}
-            axisLine={{stroke: fill, strokeWidth: 2}}
+            tickLine={{ stroke: fill, strokeWidth: 2 }}
+            axisLine={{ stroke: fill, strokeWidth: 2 }}
             label={{
               value:
                 dateRangeType === DateRangeType.YEARLY ? dateRangeTitle : "",
               fill: fill,
+              fontSize: 10.5,
             }}
           />
           <Tooltip
             content={
-              <ChartTooltip labelFormatter={persianDateLabelFormatter}/>
+              <ChartTooltip labelFormatter={persianDateLabelFormatter} />
             }
           />
-          {palettes.map((palette) => (
+          {technologies.map((technology, key) => (
             <Line
+              key={key}
               type="linear"
               strokeWidth={3}
-              key={palette.type}
-              name={palette.title}
-              dataKey={palette.type}
-              stroke={palette.palettes.neutral}
+              name={technology.title}
+              dataKey={technology.title}
+              stroke={technology.palettes.dark}
             />
           ))}
         </RechartsLineChart>

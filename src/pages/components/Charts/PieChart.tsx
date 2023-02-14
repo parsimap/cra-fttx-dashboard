@@ -45,11 +45,11 @@ const PieChart = ({ mode, technologies }: IProps) => {
       <ResponsiveContainer width="100%" height="100%">
         <RechartsPieChart>
           <Pie
-            direction={"ltr"}
+            cy="50%"
+            cx="50%"
             paddingAngle={2.5}
             data={data}
-            cx="50%"
-            cy="50%"
+            direction={"ltr"}
             startAngle={45}
             endAngle={405}
             cornerRadius={40}

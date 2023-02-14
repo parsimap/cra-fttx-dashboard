@@ -11,12 +11,12 @@ export const ChartDockPanel = ({
   children,
   position,
 }: PropsWithChildren<{ position: PositionType }>) => {
-  const left = TOP_BOTTOM.includes(position) ? "50%" : "";
-  const right = position === "left" ? 0 : "";
+  const left = position === "left" ? "0" : "";
+  const right = TOP_BOTTOM.includes(position) ? "50%" : "";
   const transformOrigin = position === "left" ? "center" : "";
   const transform = TOP_BOTTOM.includes(position)
-    ? "translateX(-50%)"
-    : "rotate(180deg) translateX(50%)";
+    ? "translateX(50%)"
+    : "rotate(180deg) translateX(-50%)";
   const writingMode = position === "left" ? "vertical-lr" : "";
   const height = position === "left" ? "100%" : "unset";
   const width = position === "bottom" ? "100%" : "unset";
@@ -27,7 +27,7 @@ export const ChartDockPanel = ({
   return (
     <Box
       mt={-4}
-      ml={!isSmall ? -3.5 : -2}
+      mr={!isSmall ? -3.5 : -2}
       width={width}
       bottom={bottom}
       height={height}

@@ -1,6 +1,14 @@
 import ITechnologyCount from "@/src/interfaces/ITechnologyCount";
 import PieChart from "@/src/pages/components/Charts/PieChart";
 import GroupStack from "@/src/pages/components/GroupStack";
+import LineChart from "./LineChart";
+import { DateRangeType } from "@/src/types/DateRangeType";
+import { useGetTrendQuery } from "@/src/features/craApiSlice";
+import { useEffect, useState } from "react";
+import { QueryStatus } from "@reduxjs/toolkit/query";
+import { appSelector } from "@/src/app/hooks";
+import { useSelector } from "react-redux";
+import ITechnologyTrend from "@/src/interfaces/ITechnologyTrend";
 
 // todo get real data from webservice
 const TECHNOLOGIES: ITechnologyCount[] = [
@@ -18,11 +26,35 @@ const TECHNOLOGIES: ITechnologyCount[] = [
   },
 ];
 
-const Charts = () => (
-  <GroupStack height={200}>
-    <PieChart mode={"client"} technologies={TECHNOLOGIES} />
-    <PieChart mode={"passive-port"} technologies={TECHNOLOGIES} />
-  </GroupStack>
-);
+function Charts() {
+  const { token, coverages, technologies } = useSelector(appSelector);
+  const [trends, setTrends] = useState<ITechnologyTrend[]>([]);
+  const { status, data } = useGetTrendQuery(token);
+
+  useEffect(() => {
+    if (status === QueryStatus.fulfilled) {
+      setTrends(data!.ResultObject);
+    }
+  }, [data, status]);
+
+  return (
+    <>
+      <GroupStack height={200}>
+        <PieChart mode={"client"} technologies={TECHNOLOGIES} />
+        <PieChart mode={"passive-port"} technologies={TECHNOLOGIES} />
+      </GroupStack>
+      <GroupStack height={200} width={400}>
+        <LineChart
+          data={trends}
+          theme={"light"}
+          type={"coverage"}
+          coverages={coverages}
+          technologies={technologies}
+          dateRangeType={DateRangeType.YEARLY}
+        />
+      </GroupStack>
+    </>
+  );
+}
 
 export default Charts;

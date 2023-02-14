@@ -8,15 +8,16 @@ export default class MyDocument extends Document {
   render() {
     // noinspection HtmlRequiredTitleElement,HtmlUnknownTarget
     return (
-      <Html dir="rtl">
+      <Html lang={"en"}>
         <Head>
           {/* PWA primary color */}
+          <meta charSet={"utf-8"}/>
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link rel="shortcut icon" href="/static/favicon.ico" />
           {/* Inject MUI styles first to match with the prepend: true configuration. */}
           {(this.props as any).emotionStyleTags}
         </Head>
-        <body>
+        <body dir={'rtl'}>
           <Main />
           <NextScript />
         </body>

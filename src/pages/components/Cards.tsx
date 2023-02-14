@@ -94,6 +94,12 @@ const Cards = () => (
       icon={"sun"}
       title={"روزشمار پروژه"}
     />
+    <Card
+      amount={<PersianNumber useGrouping>203168</PersianNumber>}
+      subtitle={"میلیارد ریال"}
+      icon={"money-integral"}
+      title={"پیش‌بینی حجم حمایت مالی"}
+    />
   </GroupStack>
 );
 
