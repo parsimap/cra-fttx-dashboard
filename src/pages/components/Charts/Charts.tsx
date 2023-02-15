@@ -9,6 +9,7 @@ import { QueryStatus } from "@reduxjs/toolkit/query";
 import { appSelector } from "@/src/app/hooks";
 import { useSelector } from "react-redux";
 import ITechnologyTrend from "@/src/interfaces/ITechnologyTrend";
+import { Grid } from "@mui/material";
 
 // todo get real data from webservice
 const TECHNOLOGIES: ITechnologyCount[] = [
@@ -39,20 +40,32 @@ function Charts() {
 
   return (
     <>
-      <GroupStack height={200}>
+      <GroupStack height={300}>
         <PieChart mode={"client"} technologies={TECHNOLOGIES} />
         <PieChart mode={"passive-port"} technologies={TECHNOLOGIES} />
       </GroupStack>
-      <GroupStack height={200} width={400}>
-        <LineChart
-          data={trends}
-          theme={"light"}
-          type={"coverage"}
-          coverages={coverages}
-          technologies={technologies}
-          dateRangeType={DateRangeType.YEARLY}
-        />
-      </GroupStack>
+      <Grid container height={200} fontFamily={'Vazirmatn FD'}>
+        <Grid item xs={6} height={"inherit"}>
+          <LineChart
+            data={trends}
+            theme={"light"}
+            type={"passive-port"}
+            coverages={coverages}
+            technologies={technologies}
+            dateRangeType={DateRangeType.YEARLY}
+          />
+        </Grid>
+        <Grid item xs={6} height={"inherit"}>
+          <LineChart
+            data={trends}
+            theme={"light"}
+            type={"client"}
+            coverages={coverages}
+            technologies={technologies}
+            dateRangeType={DateRangeType.YEARLY}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 }

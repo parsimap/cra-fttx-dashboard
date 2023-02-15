@@ -115,7 +115,7 @@ const LineChart = ({
       <ResponsiveContainer width={"100%"}>
         <RechartsLineChart
           data={getChartData()}
-          margin={{ left: -10, right: 10 }}
+          margin={{ left: 10, right: 10, top: 10, bottom: 10 }}
         >
           <YAxis
             fontSize={14}

@@ -43,18 +43,18 @@ const PieChart = ({ mode, technologies }: IProps) => {
           : "تعداد سرویس‌گیرنده (کاربر)"}
       </Typography>
       <ResponsiveContainer width="100%" height="100%">
-        <RechartsPieChart>
+        <RechartsPieChart margin={{ left: 10, right: 10, top: 10, bottom: 10 }}>
           <Pie
             cy="50%"
             cx="50%"
             paddingAngle={2.5}
             data={data}
             direction={"ltr"}
-            startAngle={45}
-            endAngle={405}
+            // startAngle={45}
+            // endAngle={405}
             cornerRadius={40}
             innerRadius={65}
-            outerRadius={80}
+            outerRadius={70}
             nameKey={"name"}
             dataKey="value"
             label={({
