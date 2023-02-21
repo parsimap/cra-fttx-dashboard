@@ -22,6 +22,9 @@ interface IProps {
 
 const RADIAN = Math.PI / 180;
 
+const getTitle = (mode: "passive-port" | "client") =>
+  mode === "passive-port" ? "تعداد پورت منصوبه" : "تعداد سرویس‌گیرنده (کاربر)";
+
 const PieChart = ({ mode, technologies }: IProps) => {
   const { data, total } = useMemo(() => {
     const data = technologies.map((technology) => ({
@@ -38,45 +41,61 @@ const PieChart = ({ mode, technologies }: IProps) => {
   return (
     <Stack height={"inherit"} width={"100%"}>
       <Typography color={"#ffffff"} textAlign={"center"}>
-        {mode === "passive-port"
-          ? "تعداد پورت منصوبه"
-          : "تعداد سرویس‌گیرنده (کاربر)"}
+        {getTitle(mode)}
       </Typography>
       <ResponsiveContainer width="100%" height="100%">
-        <RechartsPieChart margin={{ left: 10, right: 10, top: 10, bottom: 10 }}>
+        <RechartsPieChart margin={{}}>
           <Pie
             cy="50%"
             cx="50%"
             paddingAngle={2.5}
             data={data}
             direction={"ltr"}
-            // startAngle={45}
-            // endAngle={405}
             cornerRadius={40}
             innerRadius={65}
-            outerRadius={70}
+            outerRadius={80}
             nameKey={"name"}
             dataKey="value"
-            label={({
-              cx,
-              cy,
-              midAngle,
-              innerRadius,
-              outerRadius,
-              value,
-              index,
-              fill,
-            }) => {
-              const radius = 60 + innerRadius + (outerRadius - innerRadius);
-              const x = cx + radius * Math.cos(-midAngle * RADIAN - 120);
-              const y = cy + radius * Math.sin(-midAngle * RADIAN);
-              const sin = Math.sin(-RADIAN * midAngle);
-              const cos = Math.cos(-RADIAN * midAngle);
-              const sx = cx + (outerRadius + 10) * cos;
+            label={({ cx, cy, outerRadius, value, index, fill, midAngle }) => {
+              let cos: number;
+              let sin: number;
+
+              /**
+               * To implement arrow with data label, there are two indexes, the first one is for
+               * the up arrow and the second is for the down arrow.
+               *
+               * `cos` value is used for the x-axis
+               * `sin` value is used for the y-axis
+               *
+               *
+               */
+              if (index === 0) {
+                if (mode === "client") {
+                  cos = Math.cos(RADIAN);
+                  sin = Math.sin(RADIAN * -40);
+                } else {
+                  cos = Math.cos(RADIAN * 52);
+                  sin = Math.sin(RADIAN * -40);
+                }
+              } else {
+                cos = Math.cos(RADIAN * 52);
+                sin = Math.sin(RADIAN * 40);
+              }
+              let mx: number, ex: number, sx: number;
               const sy = cy + (outerRadius + 10) * sin;
-              const mx = cx + (outerRadius + 30) * cos;
+
+              if (mode === "client") {
+                sx = cx + (outerRadius + 50) * cos - outerRadius;
+                mx = cx + (outerRadius - 10) * cos;
+              } else {
+                sx = cx + (outerRadius + 10) * cos;
+                mx = cx + (outerRadius + 50) * cos;
+              }
               const my = cy + (outerRadius + 40) * sin;
-              const ex = mx + (cos >= 0 ? 1 : -1) * 50;
+
+
+              ex = mx + (cos >= 0 ? 1 : -1) * 60;
+
 
               return (
                 <g>
@@ -98,13 +117,7 @@ const PieChart = ({ mode, technologies }: IProps) => {
                       <PersianNumber>{total}</PersianNumber>
                     </text>
                   )}
-                  <text
-                    x={x}
-                    y={y}
-                    fill={fill}
-                    textAnchor={x > cx ? "start" : "end"}
-                    dominantBaseline="central"
-                  >
+                  <text x={mx} y={my - 5} fill={fill} textAnchor={"end"}>
                     <PersianNumber>{value}</PersianNumber>
                   </text>
                 </g>

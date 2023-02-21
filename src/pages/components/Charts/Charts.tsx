@@ -1,6 +1,6 @@
 import ITechnologyCount from "@/src/interfaces/ITechnologyCount";
 import PieChart from "@/src/pages/components/Charts/PieChart";
-import GroupStack from "@/src/pages/components/GroupStack";
+import GroupStack from "@/src/components/GroupStack";
 import LineChart from "./LineChart";
 import { DateRangeType } from "@/src/types/DateRangeType";
 import { useGetTrendQuery } from "@/src/features/craApiSlice";

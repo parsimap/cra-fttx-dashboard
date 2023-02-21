@@ -8,7 +8,7 @@ import SunIcon from "@/src/components/Icons/SunIcon";
 import UsbIcon from "@/src/components/Icons/UsbIcon";
 import PersianNumber from "@/src/components/PersianNumber";
 import { SvgIconProps } from "@mui/material/SvgIcon";
-import GroupStack from "@/src/pages/components/GroupStack";
+import GroupStack from "@/src/components/GroupStack";
 
 type IconType =
   | "household-family"

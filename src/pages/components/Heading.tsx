@@ -1,23 +1,59 @@
-import {Property} from "csstype";
-import TextEmphasisPosition = Property.TextEmphasisPosition;
 import Box from "@mui/material/Box";
 import sweetTaste from "@/public/tam_shirin_logo.svg";
-import {Typography} from "@mui/material";
-import GroupStack from "@/src/pages/components/GroupStack";
-import React from "react";
+import sweetTasteLight from "@/public/tam_shirin_logo_light.svg";
+import { Typography, TypographyProps } from "@mui/material";
+import GroupStack from "@/src/components/GroupStack";
+import React, { PropsWithChildren, useEffect, useState } from "react";
+import { ThemeModeType } from "@/src/types/ThemeModeType";
+import { usePathname } from "next/navigation";
 
-const Heading = () => (
-  <GroupStack>
-    <Box
-      ml={"auto"}
-      width={130}
-      component={"img"}
-      src={sweetTaste.src}
-    />
-    <Typography variant={"h5"} sx={{ color: "#F7941D", ml: "auto" }}>
-      داشبورد مدیریتی طرح ملی فیبر نوری منازل و کسب و کارها
-    </Typography>
-  </GroupStack>
+const getLogoSrc = (mode: ThemeModeType) =>
+  mode === "dark" ? sweetTaste.src : sweetTasteLight.src;
+
+function getFaPageTitle(pageTitle?: string) {
+  switch (pageTitle) {
+    case "operator":
+      return "اپراتوری";
+    default:
+      return "مدیریتی";
+  }
+}
+
+const getPageTitleColor = (theme: ThemeModeType) =>
+  theme === "dark" ? "#F7941D" : "#293470";
+
+const HeadingTypography = ({
+  children,
+  ...rest
+}: PropsWithChildren<TypographyProps>) => (
+  <Typography variant={"h5"} {...rest}>
+    {children}
+  </Typography>
 );
+
+const Heading = ({ mode }: { mode: ThemeModeType }) => {
+  const pathname = usePathname();
+  const [pageTitle, setPageTitle] = useState<string>();
+
+  useEffect(() => {
+    const pageTitle = pathname?.split("/").slice(-1)[0];
+    setPageTitle(getFaPageTitle(pageTitle));
+  }, [pathname]);
+
+  return (
+    <GroupStack>
+      <Box ml={"auto"} width={130} component={"img"} src={getLogoSrc(mode)} />
+      <Box ml={"auto"} display={"flex"}>
+        <HeadingTypography color="#F7941D">داشبورد</HeadingTypography>
+        <HeadingTypography color={getPageTitleColor(mode)} pr={1} pl={1}>
+          {pageTitle}
+        </HeadingTypography>
+        <HeadingTypography color={"#F7941D"}>
+          طرح ملی فیبر نوری منازل و کسب و کارها
+        </HeadingTypography>
+      </Box>
+    </GroupStack>
+  );
+};
 
 export default Heading;

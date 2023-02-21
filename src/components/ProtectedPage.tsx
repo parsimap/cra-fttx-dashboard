@@ -65,48 +65,7 @@ function getCoverages({
   return result;
 }
 
-// const extractPalettes = ({
-//   ClientsPalette,
-//   CoveragesPalette,
-//   PassivePalette,
-//   Technologies,
-// }: IGetBaseResult["ResultObject"]) => {
-//   const result = [] as ITechnologyData[];
-//   const indicators: Record<string, IIndicatorPalette> = {
-//     client: ClientsPalette,
-//     coverage: CoveragesPalette,
-//     "passive-port": PassivePalette,
-//   };
-//
-//   for (const technology of Technologies) {
-//     result.push({
-//       title: technology.title,
-//       palettes: {
-//         light: technology.Paletts[0],
-//         main: technology.Paletts[1],
-//         dark: technology.Paletts[2],
-//         neutral: technology.Paletts[4],
-//       },
-//     });
-//   }
-//
-//   for (const key in indicators) {
-//     result.push({
-//       type: key as CoverageType,
-//       title: indicators[key].Name,
-//       palettes: {
-//         light: indicators[key].Palette[0],
-//         main: indicators[key].Palette[1],
-//         dark: indicators[key].Palette[2],
-//         neutral: indicators[key].Palette[4],
-//       },
-//     });
-//   }
-//
-//   return result;
-// };
-
-const Protected = ({ children }: PropsWithChildren) => {
+const ProtectedPage = ({ children }: PropsWithChildren) => {
   const { data: authData, status: authStatus } = useAuthenticationQuery(null);
   const [triggerBaseData, baseDataResult] = useLazyGetBaseDataQuery();
   const { technologies, coverages } = useSelector(appSelector);
@@ -132,4 +91,4 @@ const Protected = ({ children }: PropsWithChildren) => {
   return isFinished ? <>{children}</> : <></>;
 };
 
-export default Protected;
+export default ProtectedPage;
