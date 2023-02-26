@@ -60,7 +60,7 @@ const theme = createTheme(
       // },
     },
     typography: {
-      fontFamily: "Vazirmatn, Quicksand",
+      fontFamily: "Vazirmatn FD, Quicksand",
     },
   },
   faIR

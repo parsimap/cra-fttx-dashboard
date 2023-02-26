@@ -56,7 +56,7 @@ const PieChart = ({ mode, technologies }: IProps) => {
             outerRadius={80}
             nameKey={"name"}
             dataKey="value"
-            label={({ cx, cy, outerRadius, value, index, fill, midAngle }) => {
+            label={({ cx, cy, outerRadius, value, index, fill }) => {
               let cos: number;
               let sin: number;
 
@@ -70,32 +70,18 @@ const PieChart = ({ mode, technologies }: IProps) => {
                *
                */
               if (index === 0) {
-                if (mode === "client") {
-                  cos = Math.cos(RADIAN);
-                  sin = Math.sin(RADIAN * -40);
-                } else {
-                  cos = Math.cos(RADIAN * 52);
-                  sin = Math.sin(RADIAN * -40);
-                }
+                cos = Math.cos(RADIAN * 52);
+                sin = Math.sin(RADIAN * -40);
               } else {
                 cos = Math.cos(RADIAN * 52);
                 sin = Math.sin(RADIAN * 40);
               }
-              let mx: number, ex: number, sx: number;
+
               const sy = cy + (outerRadius + 10) * sin;
-
-              if (mode === "client") {
-                sx = cx + (outerRadius + 50) * cos - outerRadius;
-                mx = cx + (outerRadius - 10) * cos;
-              } else {
-                sx = cx + (outerRadius + 10) * cos;
-                mx = cx + (outerRadius + 50) * cos;
-              }
+              const sx: number = cx + (outerRadius + 10) * cos;
+              const mx: number = cx + (outerRadius + 50) * cos;
               const my = cy + (outerRadius + 40) * sin;
-
-
-              ex = mx + (cos >= 0 ? 1 : -1) * 60;
-
+              const ex: number = mx + (cos >= 0 ? 1 : -1) * 60;
 
               return (
                 <g>

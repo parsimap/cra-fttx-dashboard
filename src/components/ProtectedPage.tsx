@@ -7,6 +7,8 @@ import { QueryStatus } from "@reduxjs/toolkit/query";
 import { appSelector, useAppDispatch } from "@/src/app/hooks";
 import {
   coveragesChanged,
+  operatorsChanged,
+  provincesChanged,
   technologiesChanged,
   tokenChanged,
 } from "@/src/features/appSlice";
@@ -83,6 +85,22 @@ const ProtectedPage = ({ children }: PropsWithChildren) => {
     if (baseDataResult.data) {
       const { ResultObject } = baseDataResult.data;
       const technologies = ResultObject.Technologies;
+      dispatch(
+        operatorsChanged(
+          ResultObject.Operators.map((o) => ({
+            title: o.OperatorName,
+            id: o.Id,
+          }))
+        )
+      );
+      dispatch(
+        provincesChanged(
+          ResultObject.Provinces.map((p) => ({
+            title: p.ProvinceName,
+            id: p.Id,
+          }))
+        )
+      );
       dispatch(coveragesChanged(getCoverages(ResultObject)));
       dispatch(technologiesChanged(getTechnologies(technologies)));
     }

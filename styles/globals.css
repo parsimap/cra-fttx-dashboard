@@ -31,10 +31,10 @@ a {
 }
 
 html, body, #__next {
+    direction: rtl;
     height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 

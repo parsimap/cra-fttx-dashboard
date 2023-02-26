@@ -6,12 +6,18 @@ interface IState {
   token: string;
   coverages: ICoverage[];
   technologies: ITechnology[];
+  // todo make the interface for operators
+  operators: { title: string; id: string; }[];
+  // todo make the interface for provinces
+  provinces: { title: string; id: string; }[];
 }
 
 const initialState: IState = {
+  provinces: [],
   token: "",
+  operators: [],
   coverages: [],
-  technologies: [],
+  technologies: []
 };
 
 const appSlice = createSlice({
@@ -27,9 +33,20 @@ const appSlice = createSlice({
     coveragesChanged(state, action: PayloadAction<ICoverage[]>) {
       state.coverages = action.payload;
     },
+    operatorsChanged(state, action: PayloadAction<{ title: string; id: string; }[]>) {
+      state.operators = action.payload;
+    },
+    provincesChanged(state, action: PayloadAction<{ title: string; id: string; }[]>) {
+      state.provinces = action.payload;
+    },
   },
 });
 
-export const { tokenChanged, coveragesChanged, technologiesChanged } =
-  appSlice.actions;
+export const {
+  tokenChanged,
+  coveragesChanged,
+  operatorsChanged,
+  provincesChanged,
+  technologiesChanged
+} = appSlice.actions;
 export default appSlice.reducer;

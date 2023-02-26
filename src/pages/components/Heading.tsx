@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import sweetTaste from "@/public/tam_shirin_logo.svg";
 import sweetTasteLight from "@/public/tam_shirin_logo_light.svg";
-import { Typography, TypographyProps } from "@mui/material";
+import { StackProps, Typography, TypographyProps } from "@mui/material";
 import GroupStack from "@/src/components/GroupStack";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { ThemeModeType } from "@/src/types/ThemeModeType";
@@ -14,6 +14,10 @@ function getFaPageTitle(pageTitle?: string) {
   switch (pageTitle) {
     case "operator":
       return "اپراتوری";
+    case "province":
+      return "استانی";
+    case "operator-province":
+      return "اپراتوری/شهری";
     default:
       return "مدیریتی";
   }
@@ -31,7 +35,7 @@ const HeadingTypography = ({
   </Typography>
 );
 
-const Heading = ({ mode }: { mode: ThemeModeType }) => {
+const Heading = ({ mode, ...rest }: { mode: ThemeModeType } & StackProps) => {
   const pathname = usePathname();
   const [pageTitle, setPageTitle] = useState<string>();
 
@@ -41,7 +45,7 @@ const Heading = ({ mode }: { mode: ThemeModeType }) => {
   }, [pathname]);
 
   return (
-    <GroupStack>
+    <GroupStack {...rest}>
       <Box ml={"auto"} width={130} component={"img"} src={getLogoSrc(mode)} />
       <Box ml={"auto"} display={"flex"}>
         <HeadingTypography color="#F7941D">داشبورد</HeadingTypography>

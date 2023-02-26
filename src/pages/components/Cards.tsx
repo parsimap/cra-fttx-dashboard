@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, Typography } from "@mui/material";
+import { Grid, Stack, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import ConstructionWorkerIcon from "@/src/components/Icons/ConstructionWorkerIcon";
 import HouseholdFamilyIcon from "@/src/components/Icons/HouseholdFamilyIcon";
@@ -8,7 +8,6 @@ import SunIcon from "@/src/components/Icons/SunIcon";
 import UsbIcon from "@/src/components/Icons/UsbIcon";
 import PersianNumber from "@/src/components/PersianNumber";
 import { SvgIconProps } from "@mui/material/SvgIcon";
-import GroupStack from "@/src/components/GroupStack";
 
 type IconType =
   | "household-family"
@@ -69,38 +68,48 @@ const Card = ({ title, subtitle, amount, icon }: ICardProps) => (
 );
 
 const Cards = () => (
-  <GroupStack>
-    <Card
-      amount={<PersianNumber useGrouping>203168</PersianNumber>}
-      subtitle={"خانوار"}
-      icon={"household-family"}
-      title={"تعداد خانوار تحت پوشش"}
-    />
-    <Card
-      amount={<PersianNumber useGrouping>203168</PersianNumber>}
-      subtitle={"کیلومتر"}
-      icon={"construction-worker"}
-      title={"حجم عملیات حفاری و داکت‌گذاری"}
-    />
-    <Card
-      amount={<PersianNumber useGrouping>203168</PersianNumber>}
-      subtitle={"کیلومتر"}
-      icon={"usb"}
-      title={"حجم عملیات فیبرکشی"}
-    />
-    <Card
-      amount={<PersianNumber useGrouping>203168</PersianNumber>}
-      subtitle={"روز"}
-      icon={"sun"}
-      title={"روزشمار پروژه"}
-    />
-    <Card
-      amount={<PersianNumber useGrouping>203168</PersianNumber>}
-      subtitle={"میلیارد ریال"}
-      icon={"money-integral"}
-      title={"پیش‌بینی حجم حمایت مالی"}
-    />
-  </GroupStack>
+  <Grid container spacing={1}>
+    <Grid item xl>
+      <Card
+        amount={<PersianNumber useGrouping>203168</PersianNumber>}
+        subtitle={"خانوار"}
+        icon={"household-family"}
+        title={"تعداد خانوار تحت پوشش"}
+      />
+    </Grid>
+    <Grid item xl>
+      <Card
+        amount={<PersianNumber useGrouping>203168</PersianNumber>}
+        subtitle={"کیلومتر"}
+        icon={"construction-worker"}
+        title={"حجم عملیات حفاری و داکت‌گذاری"}
+      />
+    </Grid>
+    <Grid item xl>
+      <Card
+        amount={<PersianNumber useGrouping>203168</PersianNumber>}
+        subtitle={"کیلومتر"}
+        icon={"usb"}
+        title={"حجم عملیات فیبرکشی"}
+      />
+    </Grid>
+    <Grid item xl>
+      <Card
+        amount={<PersianNumber useGrouping>203168</PersianNumber>}
+        subtitle={"روز"}
+        icon={"sun"}
+        title={"روزشمار پروژه"}
+      />
+    </Grid>
+    <Grid item xl>
+      <Card
+        amount={<PersianNumber useGrouping>203168</PersianNumber>}
+        subtitle={"میلیارد ریال"}
+        icon={"money-integral"}
+        title={"پیش‌بینی حجم حمایت مالی"}
+      />
+    </Grid>
+  </Grid>
 );
 
 export default Cards;
